@@ -1,13 +1,15 @@
 #!/bin/bash
+SHARE_HOME=/data/yc
+
 SIZE=(10000 20000 40000 80000 160000 320000 640000 1280000)
 THETA=(0)
-W_RATIO=(1)
-BENCHMARK_DIR=/data/yc/USTORE/test/siri
-DATA_DIR=/data/yc/USTORE/data/siri
+W_RATIO=(0 1)
+BENCHMARK_DIR=$SHARE_HOME/USTORE/test/siri
+DATA_DIR=$SHARE_HOME/go/src/github.com/attic-labs/noms/samples/go/benchmark/data
 
 go build main.go
-mkdir -p ./data
-rm -f ./data/*
+mkdir -p $DATA_DIR
+rm -f $DATA_DIR/*
 
 for j in "${THETA[@]}"
 do
@@ -16,7 +18,7 @@ do
     echo
     echo "$j $k"
     echo "----------------------------------"
-    echo -e "\"#Records\"\t\"Throughput\"" > ./data/tps_${j}_${k}
+    echo -e "\"#Records\"\t\"Throughput\"" > $DATA_DIR/tps_${j}_${k}
     for i in "${SIZE[@]}"
     do
       echo $i
