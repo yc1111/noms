@@ -49,7 +49,6 @@ func main() {
 	for i := range initKeys {
 		initMap = initMap.Set(types.String(initKeys[i]), types.String(initVals[i]))
 	}
-	fmt.Fprintf(os.Stderr, "init: %d\n", initMap.Map().Len())
 	ds, _ = db.CommitValue(ds, initMap.Map())
 
 	// execute workload
