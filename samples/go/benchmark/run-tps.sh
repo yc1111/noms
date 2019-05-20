@@ -1,9 +1,9 @@
 #!/bin/bash
 SHARE_HOME=/users/yc
 
-SIZE=(10000 20000 40000 80000 160000 320000 640000 1280000)
+SIZE=(1280000 640000 320000 160000 80000 40000 20000 10000)
 THETA=(0)
-W_RATIO=(0 1)
+W_RATIO=(0)
 BENCHMARK_DIR=$SHARE_HOME/USTORE/test/siri
 DATA_DIR=$SHARE_HOME/go/src/github.com/attic-labs/noms/samples/go/benchmark/data
 
@@ -28,8 +28,13 @@ do
       let workload=$i
       cp $BENCHMARK_DIR/dataset/input_${workload}_${j}_${k} $DATA_DIR/input
 
+      noms serve mem &
       echo -en "$i\t" >> ./data/tps_${j}_${k}
       ./main >> ./data/tps_${j}_${k}
+      for i in `echo $!`
+      do
+        kill -INT $i
+      done
     done
   done
 done

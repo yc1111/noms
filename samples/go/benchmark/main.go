@@ -64,11 +64,14 @@ func main() {
 		end := time.Now().UnixNano()
 		fmt.Println(float64(len(ops)) / (float64(end-start) / 1000000))
 	} else {
-		hv, _ := ds.MaybeHeadValue()
-		currMap := hv.(types.Map)
 		start := time.Now().UnixNano()
-		for i := range ops {
-			currMap.Get(types.String(keys[i]))
+		for i := 0; i < 10000; i++ {
+			hv, _ := ds.MaybeHeadValue()
+			currMap := hv.(types.Map)
+			val := currMap.Get(types.String(initKeys[i % len(initKeys)]))
+			if types.String(initVals[i % len(initVals)]) == val.(types.String) {
+				fmt.Fprintf(os.Stderr, "%d value not match %s, %s\n", i, initVals[i%len(initVals)], val.(types.String))
+			}
 		}
 		end := time.Now().UnixNano()
 		fmt.Println(float64(len(ops)) / (float64(end-start) / 1000000))
