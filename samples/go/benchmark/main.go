@@ -68,10 +68,7 @@ func main() {
 		for i := 0; i < 10000; i++ {
 			hv := ds.HeadValue()
 			currMap := hv.(types.Map)
-			val := currMap.Get(types.String(initKeys[i%len(initKeys)]))
-			if types.String(initVals[i%len(initVals)]) == val.(types.String) {
-				fmt.Fprintf(os.Stderr, "%d value not match %s, %s\n", i, initVals[i%len(initVals)], val.(types.String))
-			}
+			currMap.Get(types.String(initKeys[i%len(initKeys)]))
 		}
 		end := time.Now().UnixNano()
 		fmt.Println(float64(10000) / (float64(end-start) / 1000000))
