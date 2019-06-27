@@ -7,3 +7,6 @@ noms.iml
 .nomsconfig
 .DS_Store
 node_modules
+
+samples/go/benchmark/data/
+samples/go/benchmark/main

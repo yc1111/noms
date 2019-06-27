@@ -55,11 +55,15 @@ func main() {
 	ops, keys, vals := readfile("./data/input")
 	if ops[0] == 1 {
 		start := time.Now().UnixNano()
+		hv, _ := ds.MaybeHeadValue()
+		currMap := hv.(types.Map).Edit()
 		for i := range ops {
-			hv, _ := ds.MaybeHeadValue()
-			currMap := hv.(types.Map).Edit()
 			currMap.Set(types.String(keys[i]), types.String(vals[i]))
-			ds, _ = db.CommitValue(ds, currMap.Map())
+			if (i+1)%2000 == 0 {
+				ds, _ = db.CommitValue(ds, currMap.Map())
+				hv, _ = ds.MaybeHeadValue()
+				currMap = hv.(types.Map).Edit()
+			}
 		}
 		end := time.Now().UnixNano()
 		fmt.Println(float64(len(ops)) / (float64(end-start) / 1000000))
