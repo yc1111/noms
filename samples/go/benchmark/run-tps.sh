@@ -3,7 +3,7 @@ SHARE_HOME=/users/yc
 
 SIZE=(10000 20000 40000 80000 160000 320000 640000 1280000)
 THETA=(0)
-W_RATIO=(1)
+W_RATIO=(0 1)
 BENCHMARK_DIR=$SHARE_HOME/USTORE/test/siri
 DATA_DIR=$SHARE_HOME/go/src/github.com/attic-labs/noms/samples/go/benchmark/data
 

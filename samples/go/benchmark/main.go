@@ -37,6 +37,7 @@ func main() {
 	// connect database
 	cfg := config.NewResolver()
 	db, ds, err := cfg.GetDataset("http://localhost:8000::benchmark")
+	// db, ds, err := cfg.GetDataset("mem::benchmark")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Could not create dataset: %s\n", err)
 		return
@@ -68,10 +69,10 @@ func main() {
 		end := time.Now().UnixNano()
 		fmt.Println(float64(len(ops)) / (float64(end-start) / 1000000))
 	} else {
+		hv := ds.HeadValue()
+		currMap := hv.(types.Map)
 		start := time.Now().UnixNano()
 		for i := 0; i < 10000; i++ {
-			hv := ds.HeadValue()
-			currMap := hv.(types.Map)
 			currMap.Get(types.String(initKeys[i%len(initKeys)]))
 		}
 		end := time.Now().UnixNano()
